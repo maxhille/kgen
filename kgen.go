@@ -63,6 +63,6 @@ func main() {
 	http.HandleFunc("/preview", previewHandler)
 	http.HandleFunc("/create", createHandler)
 	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("./img/"))))
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe("localhost:1887", nil)
 }
 
