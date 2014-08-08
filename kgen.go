@@ -60,7 +60,7 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 	top := r.FormValue("top")
 	bot := r.FormValue("bot")
 	out := render(url, top, bot)
-	filename := fmt.Sprintf("pub/%x.jpg", sha1.Sum(out))
+	filename := makeFilename(out)
 	file, err := os.Create(filename)
 	if err != nil {
 		log.Println(err)
@@ -68,6 +68,11 @@ func createHandler(w http.ResponseWriter, r *http.Request) {
 	file.Write(out)
 	file.Close()
 	http.Redirect(w, r, filename, http.StatusSeeOther)
+}
+
+func makeFilename(bs []byte) string {
+	hash8 := fmt.Sprintf("%x", sha1.Sum(bs))[0:8]
+	return fmt.Sprintf("pub/%s.jpg", hash8)
 }
 
 func render(url, top, bot string) (out []byte) {
