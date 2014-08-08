@@ -38,7 +38,7 @@ function onInputChanged() {
 		url: "preview",
 		type: "POST",
 		data: {
-			i: $("input[name=i]").val(),
+			url: $("input[name=url]").val(),
 			top: $("input[name=top]").val(),
 			bot: $("input[name=bot]").val(),
 		}
@@ -51,7 +51,7 @@ function onInputChanged() {
 $(document).ready(function() {
  
 	$("img.list").click(function(event) {
-		$("#i").val(event.target.src);
+		$("#url").val(event.target.src);
 		onInputChanged();
 	});
 
@@ -62,7 +62,7 @@ $(document).ready(function() {
 });
 </script>
 
-<form>
+<form action="create" method="post">
 	<fieldset>
 	<legend>generieren</legend>
 	<ul>
@@ -72,8 +72,8 @@ $(document).ready(function() {
 		</li>
 
 		<li>
-			<label for="i">Bild</label>
-			<input type="text" id="i" name="i" value="">
+			<label for="url">Url</label>
+			<input type="text" id="url" name="url" value="">
 		</li>
 
 
