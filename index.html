@@ -44,7 +44,7 @@ function onInputChanged() {
 		}
 	})
 	.done(function(data) {
-		$("#preview").html(data);
+		$("#preview").attr("src", "data:image/jpeg;base64,"+data);
 	});
 };
 
@@ -68,7 +68,7 @@ $(document).ready(function() {
 	<ul>
 		<li>
 			<label for="preview">Vorschau</label>
-			<div id="preview">(leer)</div>
+			<img id="preview" />
 		</li>
 
 		<li>

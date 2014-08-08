@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/base64"
 	"fmt"
 	"html/template"
 	"io/ioutil"
 	"net/http"
+	"os/exec"
 	"strings"
 )
 
@@ -24,10 +26,16 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func previewHandler(w http.ResponseWriter, r *http.Request) {
-	name := r.FormValue("i")
+	url := r.FormValue("i")
 	top := r.FormValue("top")
 	bot := r.FormValue("bot")
-	fmt.Fprintf(w, "%s / %s / %s", name, top, bot)
+	out, err := exec.Command("convert", url, "-font", "impact.ttf", "-stroke", "#000", "-fill", "#fff", "-pointsize", "33", "-gravity", "North", "-draw", "text 1,0 '"+top+"'", "-gravity", "South", "-draw", "text 1,0 '"+bot+"'", "-").CombinedOutput()
+	if err != nil {
+		fmt.Printf("%s", out)
+	}
+	encoder := base64.NewEncoder(base64.StdEncoding, w)
+	encoder.Write(out)
+	encoder.Close()
 }
 
 func main() {
