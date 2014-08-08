@@ -1,10 +1,104 @@
+<!doctype html>
 <html>
-<h1>meme generator</h1>
+
+<head>
+
+<meta charset="utf-8" />
+<title>meme-generator</title>
+
+<style type="text/css">
+
+body>ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+fieldset>ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+form {
+	position: fixed;
+	margin: 2em;
+	right: 0;
+	top: 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+
+function onInputChanged() {
+	$.ajax({
+		url: "preview",
+		type: "POST",
+		data: {
+			i: $("input[name=i]").val(),
+			top: $("input[name=top]").val(),
+			bot: $("input[name=bot]").val(),
+		}
+	})
+	.done(function(data) {
+		$("#preview").html(data);
+	});
+};
+
+$(document).ready(function() {
+ 
+	$("img.list").click(function(event) {
+		$("#i").val(event.target.src);
+		onInputChanged();
+	});
+
+	$("input").on("input", function(event) {
+		onInputChanged();
+	});
+ 
+});
+</script>
+
+<form>
+	<fieldset>
+	<legend>generieren</legend>
+	<ul>
+		<li>
+			<label for="preview">Vorschau</label>
+			<div id="preview">(leer)</div>
+		</li>
+
+		<li>
+			<label for="i">Bild</label>
+			<input type="text" id="i" name="i" value="">
+		</li>
+
+
+		<li>
+			<label for="top">Text oben</label>
+			<input type="text" id="top" name="top" value="">
+		</li>
+
+		<li>
+			<label for="top">Text unten</label>
+			<input type="text" id="bot" name="bot" value="">
+		</li>
+
+		<li>
+			<input type="submit"/>
+		</li>
+	</ul>
+	</fieldset>
+</form>
 
 <ul>
 {{ range . }}
-	<li><img src="img/{{ . }}" /></li>
+	<li><img class="list" src="img/{{ . }}" /></li>
 {{ end }}
 </ul>
 
+</body>
 </html>
