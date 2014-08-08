@@ -1,3 +1,10 @@
 <html>
 <h1>meme generator</h1>
+
+<ul>
+{{ range . }}
+	<li><img src="img/{{ . }}" /></li>
+{{ end }}
+</ul>
+
 </html>
